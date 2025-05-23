@@ -245,7 +245,7 @@
             </div>
             <div class="col-md-custom">
               <b class="package-category-title">
-                <i>Trial 2TB/AI</i>
+                <i>Trial 2TB/AI Khác</i>
               </b>
               <div id="trial2TBPackagesContainer"></div>
             </div>
@@ -310,14 +310,14 @@
       const PERCENTAGE_CODE_REGEX = /C\d+?%/;
       // Danh sách các mã gói được hỗ trợ.
       const sourcePackageCodes = [
-        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft', 'g1.ai.pro' // Gói 30T Ultra
+        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft', 'ai.pro' // Gói AI Pro (đã cập nhật từ g1.ai.pro)
       ].filter((value, index, self) => self.indexOf(value) === index); // Đảm bảo các giá trị là duy nhất
       const packageRadioContainers = {
         monthly: document.getElementById('monthlyPackagesContainer'),
         yearly: document.getElementById('yearlyPackagesContainer'),
         trial100gb: document.getElementById('trial100GBPackagesContainer'),
         trial200gb: document.getElementById('trial200GBPackagesContainer'),
-        trial2TB: document.getElementById('trial2TBPackagesContainer')
+        trial2TB: document.getElementById('trial2TBPackagesContainer') // Sẽ chứa các gói trial 2TB và AI khác (không phải ai.pro)
       };
       // --- Global State ---
       let currentTokenValue = '';
@@ -342,6 +342,8 @@
           let targetContainer;
           if (packageCode === NO_CHANGE_OPTION_VALUE) {
             targetContainer = packageRadioContainers.monthly;
+          } else if (packageCode === 'ai.pro') { // Điều kiện riêng cho ai.pro
+            targetContainer = packageRadioContainers.monthly;
           } else if (packageCode.includes('_eft')) {
             if (packageCode.startsWith('100gb')) targetContainer = packageRadioContainers.trial100gb;
             else if (packageCode.startsWith('200gb')) targetContainer = packageRadioContainers.trial200gb;
@@ -349,9 +351,9 @@
             else targetContainer = packageRadioContainers.trial200gb; // Fallback cho các trial khác
           } else if (packageCode.includes('annual')) {
             targetContainer = packageRadioContainers.yearly;
-          } else if (packageCode.includes('ai')) { // Các gói AI (bao gồm cả 2tb.ai và g1.ai.pro)
-            targetContainer = packageRadioContainers.trial2TB; // Đưa vào cột Trial 2TB/AI
-          } else {
+          } else if (packageCode.includes('ai')) { // Các gói AI khác (ví dụ: 2tb.ai)
+            targetContainer = packageRadioContainers.trial2TB;
+          } else { // Các gói tháng còn lại
             targetContainer = packageRadioContainers.monthly;
           }
           if (targetContainer) {
