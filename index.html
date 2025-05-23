@@ -1,439 +1,785 @@
 <!DOCTYPE html>
+
 <html lang="vi">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xử lý Code Trial Google One</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Màu nền xám nhạt cho trang */
-            color: #333;
-        }
 
-        .container {
-            background-color: #ffffff; /* Nền trắng cho container chính */
-            padding: 30px;
-            border-radius: 12px; /* Bo góc lớn hơn */
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ nhàng */
-            margin-top: 40px;
-            margin-bottom: 40px;
-            max-width: 900px; /* Giới hạn chiều rộng tối đa */
-        }
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-        h2.main-title {
-            font-weight: 700;
-            color: #2c3e50; /* Màu tiêu đề đậm hơn */
-            margin-bottom: 30px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .form-control {
-            border-radius: 8px; /* Bo góc cho input */
-            padding: 12px 15px; /* Tăng padding */
-            border: 1px solid #ced4da;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
+<title>Xử lý Code Trial Google One</title>
 
-        label {
-            font-weight: 600; /* Chữ đậm hơn cho label */
-            color: #495057;
-        }
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-        hr {
-            border-top: 1px solid #e0e0e0; /* Thanh phân cách tinh tế hơn */
-            margin-top: 25px;
-            margin-bottom: 25px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        #outputString[contentEditable="true"] {
-            background-color: #e9ecef; /* Màu nền khác biệt cho ô kết quả */
-            border: 1px solid #ced4da;
-            padding: 15px;
-            resize: vertical; /* Chỉ cho phép thay đổi kích thước theo chiều dọc */
-            overflow: auto;
-            min-height: 100px;
-            height: 150px;
-            display: block;
-            width: 100%;
-            border-radius: 8px;
-            line-height: 1.6;
-            color: #495057;
-        }
+<style>
 
-        .btn-custom {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-            letter-spacing: 0.5px;
-        }
-        .btn-custom-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: white;
-        }
-        .btn-custom-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            transform: translateY(-2px); /* Hiệu ứng nhấc lên khi hover */
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-        }
+body {
 
-        #openLinkButton {
-            background-color: #28a745;
-            border-color: #28a745;
-            color: white;
-        }
-        #openLinkButton:hover {
-            background-color: #1e7e34;
-            border-color: #1e7e34;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-        }
+font-family: 'Inter', sans-serif;
 
-        .radio-column-container .col-md-custom { /* Lớp tùy chỉnh cho cột radio */
-            flex: 0 0 19%; /* Cho 5 cột trên một hàng */
-            max-width: 19%;
-            margin-bottom: 15px;
-        }
-        /* Điều chỉnh cho màn hình nhỏ hơn */
-        @media (max-width: 1200px) {
-            .radio-column-container .col-md-custom {
-                flex: 0 0 24%; max-width: 24%; /* 4 cột */
-            }
-        }
-        @media (max-width: 992px) {
-            .radio-column-container .col-md-custom {
-                flex: 0 0 32%; max-width: 32%; /* 3 cột */
-            }
-        }
-         @media (max-width: 768px) {
-            .radio-column-container .col-md-custom {
-                flex: 0 0 48%; max-width: 48%; /* 2 cột */
-            }
-        }
-        @media (max-width: 576px) {
-            .radio-column-container .col-md-custom {
-                flex: 0 0 100%; max-width: 100%; /* 1 cột */
-            }
-        }
+background-color: #f0f2f5; /* Màu nền xám nhạt cho trang */
+
+color: #333;
+
+}
 
 
-        .form-check-input {
-            margin-top: 0.2rem; /* Điều chỉnh vị trí input radio nếu cần */
-        }
-        .form-check-label {
-            margin-left: 8px;
-            font-weight: 500;
-            color: #555;
-            overflow-wrap: break-word; /* Cho phép ngắt từ dài xuống dòng */
-            word-break: break-word;    /* Hỗ trợ ngắt từ mạnh hơn nếu cần */
-            white-space: normal;       /* Đảm bảo văn bản có thể ngắt dòng */
-            line-height: 1.3;          /* Điều chỉnh chiều cao dòng cho dễ đọc khi ngắt dòng */
-        }
-        .package-category-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 0.95rem;
-        }
-        .note-text {
-            font-size: 0.875rem;
-            color: #6c757d;
-        }
-        .error-message {
-            font-size: 0.875rem;
-            color: #dc3545; /* Màu đỏ cho thông báo lỗi */
-        }
-    </style>
+
+.container {
+
+background-color: #ffffff; /* Nền trắng cho container chính */
+
+padding: 30px;
+
+border-radius: 12px; /* Bo góc lớn hơn */
+
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ nhàng */
+
+margin-top: 40px;
+
+margin-bottom: 40px;
+
+max-width: 900px; /* Giới hạn chiều rộng tối đa */
+
+}
+
+
+
+h2.main-title {
+
+font-weight: 700;
+
+color: #2c3e50; /* Màu tiêu đề đậm hơn */
+
+margin-bottom: 30px;
+
+}
+
+
+
+.form-control {
+
+border-radius: 8px; /* Bo góc cho input */
+
+padding: 12px 15px; /* Tăng padding */
+
+border: 1px solid #ced4da;
+
+transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+}
+
+.form-control:focus {
+
+border-color: #007bff;
+
+box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+
+}
+
+
+
+label {
+
+font-weight: 600; /* Chữ đậm hơn cho label */
+
+color: #495057;
+
+}
+
+
+
+hr {
+
+border-top: 1px solid #e0e0e0; /* Thanh phân cách tinh tế hơn */
+
+margin-top: 25px;
+
+margin-bottom: 25px;
+
+}
+
+
+
+#outputString[contentEditable="true"] {
+
+background-color: #e9ecef; /* Màu nền khác biệt cho ô kết quả */
+
+border: 1px solid #ced4da;
+
+padding: 15px;
+
+resize: vertical; /* Chỉ cho phép thay đổi kích thước theo chiều dọc */
+
+overflow: auto;
+
+min-height: 100px;
+
+height: 150px;
+
+display: block;
+
+width: 100%;
+
+border-radius: 8px;
+
+line-height: 1.6;
+
+color: #495057;
+
+}
+
+
+
+.btn-custom {
+
+padding: 10px 20px;
+
+border-radius: 8px;
+
+font-weight: 600;
+
+transition: all 0.2s ease-in-out;
+
+letter-spacing: 0.5px;
+
+}
+
+.btn-custom-primary {
+
+background-color: #007bff;
+
+border-color: #007bff;
+
+color: white;
+
+}
+
+.btn-custom-primary:hover {
+
+background-color: #0056b3;
+
+border-color: #0056b3;
+
+transform: translateY(-2px); /* Hiệu ứng nhấc lên khi hover */
+
+box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+
+}
+
+
+
+#openLinkButton {
+
+background-color: #28a745;
+
+border-color: #28a745;
+
+color: white;
+
+}
+
+#openLinkButton:hover {
+
+background-color: #1e7e34;
+
+border-color: #1e7e34;
+
+transform: translateY(-2px);
+
+box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+
+}
+
+
+
+.radio-column-container .col-md-custom { /* Lớp tùy chỉnh cho cột radio */
+
+flex: 0 0 19%; /* Cho 5 cột trên một hàng */
+
+max-width: 19%;
+
+margin-bottom: 15px;
+
+}
+
+/* Điều chỉnh cho màn hình nhỏ hơn */
+
+@media (max-width: 1200px) {
+
+.radio-column-container .col-md-custom {
+
+flex: 0 0 24%; max-width: 24%; /* 4 cột */
+
+}
+
+}
+
+@media (max-width: 992px) {
+
+.radio-column-container .col-md-custom {
+
+flex: 0 0 32%; max-width: 32%; /* 3 cột */
+
+}
+
+}
+
+@media (max-width: 768px) {
+
+.radio-column-container .col-md-custom {
+
+flex: 0 0 48%; max-width: 48%; /* 2 cột */
+
+}
+
+}
+
+@media (max-width: 576px) {
+
+.radio-column-container .col-md-custom {
+
+flex: 0 0 100%; max-width: 100%; /* 1 cột */
+
+}
+
+}
+
+
+
+
+
+.form-check-input {
+
+margin-top: 0.2rem; /* Điều chỉnh vị trí input radio nếu cần */
+
+}
+
+.form-check-label {
+
+margin-left: 8px;
+
+font-weight: 500;
+
+color: #555;
+
+overflow-wrap: break-word; /* Cho phép ngắt từ dài xuống dòng */
+
+word-break: break-word; /* Hỗ trợ ngắt từ mạnh hơn nếu cần */
+
+white-space: normal; /* Đảm bảo văn bản có thể ngắt dòng */
+
+line-height: 1.3; /* Điều chỉnh chiều cao dòng cho dễ đọc khi ngắt dòng */
+
+}
+
+.package-category-title {
+
+font-weight: 600;
+
+margin-bottom: 10px;
+
+color: #333;
+
+font-size: 0.95rem;
+
+}
+
+.note-text {
+
+font-size: 0.875rem;
+
+color: #6c757d;
+
+}
+
+</style>
+
 </head>
+
 <body>
-    <div class="container">
-        <h2 class="text-center main-title">Xử Lý Mã Dùng Thử Google One</h2>
 
-        <div class="form-group">
-            <label for="tokenInputElement">Nhập đoạn mã token Google One:</label>
-            <input type="text" class="form-control" id="tokenInputElement" name="tokenInputElement" placeholder="Dán mã token vào đây...">
-            <div id="tokenError" class="error-message mt-1" style="display: none;"></div>
-        </div>
+<div class="container">
 
-        <div id="resultProcessingContainer" style="display: none; margin-bottom: 30px;">
-            <div class="mt-3 mb-3 p-3 bg-light rounded border">
-                Thông tin từ token:
-                <div>Code gói tìm được: <b><span id="extractedPackageCodeSpan" class="text-primary"></span></b></div>
-                <div>Mã phần trăm hiện tại: <b><span id="extractedPercentageCodeSpan" class="text-success"></span></b></div>
-            </div>
-            <hr>
-
-            <div class="form-group mt-4">
-                <label>Chọn code gói bạn muốn thay thế:</label><br>
-                <small class="form-text text-muted note-text mb-2"><i>Lưu ý: "annual" là gói NĂM, không có "annual" là gói THÁNG. "eft" thường là gói dùng thử.</i></small>
-                <div class="row radio-column-container justify-content-between">
-                    <div class="col-md-custom">
-                        <b class="package-category-title"><i>Gói THÁNG</i></b>
-                        <div id="monthlyPackagesContainer"></div>
-                    </div>
-                    <div class="col-md-custom">
-                        <b class="package-category-title"><i>Gói NĂM</i></b>
-                        <div id="yearlyPackagesContainer"></div>
-                    </div>
-                    <div class="col-md-custom">
-                        <b class="package-category-title"><i>Trial 100GB</i></b>
-                        <div id="trial100GBPackagesContainer"></div>
-                    </div>
-                    <div class="col-md-custom">
-                        <b class="package-category-title"><i>Trial 200GB/Khác</i></b>
-                        <div id="trial200GBPackagesContainer"></div>
-                    </div>
-                    <div class="col-md-custom">
-                        <b class="package-category-title"><i>Trial 2TB/AI</i></b>
-                        <div id="trial2TBPackagesContainer"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mt-4">
-                <label>Chọn phương thức thay thế mã phần trăm:</label>
-                <div class="row">
-                    <div class="form-check col-auto mb-2 ml-3">
-                        <input type="radio" name="replacementMethodRadio" value="C0%" id="C0Radio" checked class="form-check-input">
-                        <label class="form-check-label" for="C0Radio">C0%</label>
-                    </div>
-                    <div class="form-check col-auto mb-2 ml-3">
-                        <input type="radio" name="replacementMethodRadio" value="C1%" id="C1Radio" class="form-check-input">
-                        <label class="form-check-label" for="C1Radio">C1%</label>
-                    </div>
-                    <div class="form-check col-auto mb-2 ml-3">
-                        <input type="radio" name="replacementMethodRadio" value="C5%" id="C5Radio" class="form-check-input">
-                        <label class="form-check-label" for="C5Radio">C5%</label>
-                    </div>
-                    <div class="form-check col-auto mb-2 ml-3">
-                        <input type="radio" name="replacementMethodRadio" value="C6%" id="C6Radio" class="form-check-input">
-                        <label class="form-check-label" for="C6Radio">C6%</label>
-                    </div>
-                </div>
-            </div>
-
-            <p class="note-text mt-3"><i>Không cần tải lại trang, khi nhấn <b>Xử lý</b>, mã token của bạn sẽ được cập nhật ngay!</i></p>
-            <button type="button" class="btn btn-custom btn-custom-primary mt-2" id="processButton">Xử lý Token</button>
-            <hr>
-        </div>
-
-        <div class="mt-3" id="finalResultContainer" style="display: none;">
-            <label for="outputString">Kết quả mã token đã xử lý:</label>
-            <div id="outputString" contenteditable="true" aria-label="Kết quả mã token đã xử lý"></div>
-            <div class="mt-3">
-                <a id="openLinkButton" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-custom">Mở liên kết với token mới</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- DOM Element References ---
-        const tokenInputElement = document.getElementById('tokenInputElement');
-        const tokenErrorDiv = document.getElementById('tokenError');
-        const resultProcessingContainer = document.getElementById('resultProcessingContainer');
-        const extractedPackageCodeSpan = document.getElementById('extractedPackageCodeSpan');
-        const extractedPercentageCodeSpan = document.getElementById('extractedPercentageCodeSpan');
-        const processButton = document.getElementById('processButton');
-        const finalResultContainer = document.getElementById('finalResultContainer');
-        const outputStringDiv = document.getElementById('outputString');
-        const openLinkButton = document.getElementById('openLinkButton');
-
-        // --- Configuration ---
-        const NO_CHANGE_OPTION_VALUE = 'Không thay đổi';
-        // Regex để trích xuất mã token và mã gói.
-        // Group 1: Phần token chính (ít dùng trực tiếp)
-        // Group 2: Mã gói gốc (ví dụ: '100gb', '2tb.annual')
-        const TOKEN_URL_REGEX = /^https:\/\/tokenized\.play\.google\.com\/eacquire\/.*?(.*)%3Ag1\.(.*?)%22%2C21%5D/;
-        // Regex để tìm mã phần trăm (ví dụ: C0%, C5%). Tìm kiếm non-greedy.
-        const PERCENTAGE_CODE_REGEX = /C\d+?%/; // Sửa lại để khớp với C và một hoặc nhiều chữ số theo sau là %
-
-        const sourcePackageCodes = [
-            NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb',
-            '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft',
-            '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft',
-            '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft',
-            '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft',
-            '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft',
-            '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft',
-            '2tb.annual.1month_eft', '2tb.annual.3months_eft',
-            'g1.ai.pro' // Gói 30T Ultra mới
-        ].filter((value, index, self) => self.indexOf(value) === index); // Đảm bảo các giá trị là duy nhất
-
-        const packageRadioContainers = {
-            monthly: document.getElementById('monthlyPackagesContainer'),
-            yearly: document.getElementById('yearlyPackagesContainer'),
-            trial100gb: document.getElementById('trial100GBPackagesContainer'),
-            trial200gb: document.getElementById('trial200GBPackagesContainer'), // Sẽ chứa cả 200GB và các gói trial khác ko rõ ràng
-            trial2TB: document.getElementById('trial2TBPackagesContainer')    // Sẽ chứa cả 2TB và các gói AI
-        };
-
-        // --- Global State ---
-        let currentTokenValue = '';
-        let originalExtractedPackageCode = '';
-        let originalExtractedPercentageCode = ''; // Lưu mã phần trăm gốc tìm được
-
-        // --- Functions ---
-        function populatePackageRadioButtons() {
-            sourcePackageCodes.forEach(packageCode => {
-                const radioInput = document.createElement('input');
-                radioInput.type = 'radio';
-                radioInput.name = 'sourcePackageRadio';
-                radioInput.value = packageCode;
-                // Tạo ID an toàn hơn cho các giá trị có ký tự đặc biệt
-                radioInput.id = 'radio-' + packageCode.replace(/[^a-zA-Z0-9-_]/g, '-');
-                radioInput.className = 'form-check-input';
-
-                if (packageCode === NO_CHANGE_OPTION_VALUE) {
-                    radioInput.checked = true;
-                }
-
-                const label = document.createElement('label');
-                label.htmlFor = radioInput.id;
-                label.textContent = packageCode;
-                label.className = 'form-check-label';
-
-                let targetContainer;
-                if (packageCode === NO_CHANGE_OPTION_VALUE) {
-                     targetContainer = packageRadioContainers.monthly; // Hoặc một vị trí mặc định khác
-                } else if (packageCode.includes('_eft')) {
-                    if (packageCode.startsWith('100gb')) targetContainer = packageRadioContainers.trial100gb;
-                    else if (packageCode.startsWith('200gb')) targetContainer = packageRadioContainers.trial200gb;
-                    else if (packageCode.startsWith('2tb')) targetContainer = packageRadioContainers.trial2TB;
-                    else targetContainer = packageRadioContainers.trial200gb; // Fallback cho các trial khác
-                } else if (packageCode.includes('annual')) {
-                    targetContainer = packageRadioContainers.yearly;
-                } else if (packageCode.includes('ai')) { // Các gói AI (bao gồm cả 2tb.ai và g1.ai.pro)
-                     targetContainer = packageRadioContainers.trial2TB; // Đưa vào cột Trial 2TB/AI
-                }
-                else {
-                    targetContainer = packageRadioContainers.monthly;
-                }
-
-                if (targetContainer) {
-                    const div = document.createElement('div');
-                    div.className = 'form-check mb-2';
-                    div.appendChild(radioInput);
-                    div.appendChild(label);
-                    targetContainer.appendChild(div);
-                }
-            });
-        }
-
-        function handleTokenInput() {
-            currentTokenValue = tokenInputElement.value.trim();
-            const matches = currentTokenValue.match(TOKEN_URL_REGEX);
-
-            tokenErrorDiv.style.display = 'none'; // Ẩn thông báo lỗi cũ
-
-            if (matches && matches[2]) {
-                originalExtractedPackageCode = matches[2];
-                extractedPackageCodeSpan.textContent = originalExtractedPackageCode;
-
-                const percentageMatch = currentTokenValue.match(PERCENTAGE_CODE_REGEX);
-                if (percentageMatch && percentageMatch[0]) {
-                    originalExtractedPercentageCode = percentageMatch[0];
-                    extractedPercentageCodeSpan.textContent = originalExtractedPercentageCode;
-                } else {
-                    originalExtractedPercentageCode = ''; // Không tìm thấy mã
-                    extractedPercentageCodeSpan.textContent = 'Không tìm thấy';
-                }
-
-                resultProcessingContainer.style.display = 'block';
-                finalResultContainer.style.display = 'none';
-            } else {
-                resultProcessingContainer.style.display = 'none';
-                finalResultContainer.style.display = 'none';
-                if (currentTokenValue !== '') {
-                    tokenErrorDiv.textContent = 'Đoạn mã token không hợp lệ hoặc không đúng định dạng.';
-                    tokenErrorDiv.style.display = 'block';
-                }
-            }
-        }
-
-        function processAndReplaceToken() {
-            if (!TOKEN_URL_REGEX.test(currentTokenValue)) {
-                // alert('Đoạn mã token ban đầu không hợp lệ. Vui lòng kiểm tra lại.'); // Tránh dùng alert
-                tokenErrorDiv.textContent = 'Đoạn mã token ban đầu không hợp lệ. Vui lòng nhập lại.';
-                tokenErrorDiv.style.display = 'block';
-                resultProcessingContainer.style.display = 'none';
-                finalResultContainer.style.display = 'none';
-                return;
-            }
-
-            const selectedReplacementMethodRadio = document.querySelector('input[name="replacementMethodRadio"]:checked');
-            const selectedSourcePackageRadio = document.querySelector('input[name="sourcePackageRadio"]:checked');
-
-            if (!selectedReplacementMethodRadio) {
-                // alert('Vui lòng chọn một phương thức thay thế mã phần trăm (ví dụ: C0%).');
-                tokenErrorDiv.textContent = 'Vui lòng chọn một phương thức thay thế mã phần trăm.';
-                tokenErrorDiv.style.display = 'block';
-                return;
-            }
-            if (!selectedSourcePackageRadio) {
-                // alert('Vui lòng chọn một code gói để thay thế.');
-                tokenErrorDiv.textContent = 'Vui lòng chọn một code gói để thay thế.';
-                tokenErrorDiv.style.display = 'block';
-                return;
-            }
-            tokenErrorDiv.style.display = 'none'; // Xóa lỗi nếu các lựa chọn hợp lệ
-
-            const replacementMethodValue = selectedReplacementMethodRadio.value; // Ví dụ: "C0%"
-            const packageToReplaceWith = selectedSourcePackageRadio.value;
-
-            let modifiedTokenString = currentTokenValue;
-
-            // 1. Thay thế mã phần trăm
-            if (originalExtractedPercentageCode && originalExtractedPercentageCode !== 'Không tìm thấy') {
-                // Chỉ thay thế nếu mã phần trăm gốc tồn tại và được tìm thấy
-                // Tạo regex động để chỉ thay thế chính xác mã phần trăm đã tìm thấy
-                const escapedOriginalPercentage = originalExtractedPercentageCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regexToReplacePercentage = new RegExp(escapedOriginalPercentage, 'g');
-                modifiedTokenString = modifiedTokenString.replace(regexToReplacePercentage, replacementMethodValue);
-            } else if (currentTokenValue.includes('%3Ag1.')) {
-                 // Nếu không có mã % gốc nhưng là token hợp lệ, và người dùng muốn áp dụng mã % mới
-                 // Cần quyết định vị trí chèn. Ví dụ: chèn trước "%3Ag1."
-                 // Đây là trường hợp phức tạp hơn, tạm thời có thể bỏ qua hoặc tìm một vị trí hợp lý
-                 // Ví dụ: nếu token là "...ABC%3Ag1..." và replacementMethodValue là "C0%", kết quả là "...ABCC0%%3Ag1..."
-                 // Cách đơn giản hơn là chỉ thay thế nếu mã gốc tồn tại.
-                 // Để an toàn, nếu không có mã gốc, không thay đổi phần trăm.
-                 // Hoặc, nếu muốn "thêm mới" một cách nhất quán:
-                 // const g1Marker = "%3Ag1.";
-                 // const markerIndex = modifiedTokenString.indexOf(g1Marker);
-                 // if (markerIndex !== -1 && !PERCENTAGE_CODE_REGEX.test(modifiedTokenString.substring(0, markerIndex))) {
-                 //    modifiedTokenString = modifiedTokenString.substring(0, markerIndex) + replacementMethodValue + modifiedTokenString.substring(markerIndex);
-                 // }
-                 // Hiện tại, để đơn giản, nếu không có mã % gốc, không thực hiện thay thế %
-            }
+<h2 class="text-center main-title">Xử Lý Mã Dùng Thử Google One</h2>
 
 
-            // 2. Thay thế mã gói
-            let finalTokenString = modifiedTokenString;
-            if (packageToReplaceWith !== NO_CHANGE_OPTION_VALUE && originalExtractedPackageCode) {
-                const packageCodePattern = originalExtractedPackageCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regexToReplacePackage = new RegExp(packageCodePattern, 'g');
-                finalTokenString = modifiedTokenString.replace(regexToReplacePackage, packageToReplaceWith);
-            }
 
-            outputStringDiv.textContent = finalTokenString;
-            openLinkButton.href = finalTokenString;
-            finalResultContainer.style.display = 'block';
-        }
+<div class="form-group">
 
-        // --- Event Listeners ---
-        tokenInputElement.addEventListener('input', handleTokenInput);
-        processButton.addEventListener('click', processAndReplaceToken);
+<label for="tokenInputElement">Nhập đoạn mã token Google One:</label>
 
-        // --- Initialization ---
-        populatePackageRadioButtons();
+<input type="text" class="form-control" id="tokenInputElement" name="tokenInputElement" placeholder="Dán mã token vào đây...">
 
-    </script>
+</div>
+
+
+
+<div id="resultProcessingContainer" style="display: none; margin-bottom: 30px;">
+
+<div class="mt-3 mb-3 p-3 bg-light rounded border">
+
+Thông tin từ token:
+
+<div>Code gói tìm được: <b><span id="extractedPackageCodeSpan" class="text-primary"></span></b></div>
+
+<div>Mã hiện tại: <b><span id="extractedPercentageCodeSpan" class="text-success"></span></b></div>
+
+</div>
+
+<hr>
+
+
+
+<div class="form-group mt-4">
+
+<label>Chọn code gói bạn muốn thay thế:</label><br>
+
+<small class="form-text text-muted note-text mb-2"><i>Lưu ý: "annual" là gói NĂM, không có "annual" là gói THÁNG.</i></small>
+
+<div class="row radio-column-container justify-content-between">
+
+<div class="col-md-custom">
+
+<b class="package-category-title"><i>Gói THÁNG</i></b>
+
+<div id="monthlyPackagesContainer"></div>
+
+</div>
+
+<div class="col-md-custom">
+
+<b class="package-category-title"><i>Gói NĂM</i></b>
+
+<div id="yearlyPackagesContainer"></div>
+
+</div>
+
+<div class="col-md-custom">
+
+<b class="package-category-title"><i>Trial 100GB</i></b>
+
+<div id="trial100GBPackagesContainer"></div>
+
+</div>
+
+<div class="col-md-custom">
+
+<b class="package-category-title"><i>Trial 200GB</i></b>
+
+<div id="trial200GBPackagesContainer"></div>
+
+</div>
+
+<div class="col-md-custom">
+
+<b class="package-category-title"><i>Trial 2TB</i></b>
+
+<div id="trial2TBPackagesContainer"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="form-group mt-4">
+
+<label>Chọn phương thức thay thế mã phần trăm:</label>
+
+<div class="row">
+
+<div class="form-check col-auto mb-2 ml-3">
+
+<input type="radio" name="replacementMethodRadio" value="C0%" id="C0Radio" checked class="form-check-input">
+
+<label class="form-check-label" for="C0Radio">C0%</label>
+
+</div>
+
+<div class="form-check col-auto mb-2 ml-3">
+
+<input type="radio" name="replacementMethodRadio" value="C1%" id="C1Radio" class="form-check-input">
+
+<label class="form-check-label" for="C1Radio">C1%</label>
+
+</div>
+
+<div class="form-check col-auto mb-2 ml-3">
+
+<input type="radio" name="replacementMethodRadio" value="C5%" id="C5Radio" class="form-check-input">
+
+<label class="form-check-label" for="C5Radio">C5%</label>
+
+</div>
+
+<div class="form-check col-auto mb-2 ml-3">
+
+<input type="radio" name="replacementMethodRadio" value="C6%" id="C6Radio" class="form-check-input">
+
+<label class="form-check-label" for="C6Radio">C6%</label>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<p class="note-text mt-3"><i>Không cần tải lại trang, khi nhấn <b>Xử lý</b>, mã token của bạn sẽ được cập nhật ngay!</i></p>
+
+<button type="button" class="btn btn-custom btn-custom-primary mt-2" id="processButton">Xử lý Token</button>
+
+<hr>
+
+</div>
+
+
+
+<div class="mt-3" id="finalResultContainer" style="display: none;">
+
+<label for="outputString">Kết quả mã token đã xử lý:</label>
+
+<div id="outputString" contenteditable="true" aria-label="Kết quả mã token đã xử lý"></div>
+
+<div class="mt-3">
+
+<a id="openLinkButton" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-custom">Mở liên kết với token mới</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+// --- DOM Element References ---
+
+const tokenInputElement = document.getElementById('tokenInputElement');
+
+const resultProcessingContainer = document.getElementById('resultProcessingContainer');
+
+const extractedPackageCodeSpan = document.getElementById('extractedPackageCodeSpan');
+
+const extractedPercentageCodeSpan = document.getElementById('extractedPercentageCodeSpan');
+
+const processButton = document.getElementById('processButton');
+
+const finalResultContainer = document.getElementById('finalResultContainer');
+
+const outputStringDiv = document.getElementById('outputString');
+
+const openLinkButton = document.getElementById('openLinkButton');
+
+
+
+// --- Configuration ---
+
+const NO_CHANGE_OPTION_VALUE = 'Không thay đổi';
+
+const TOKEN_URL_REGEX = /^https:\/\/tokenized\.play\.google\.com\/eacquire\/.*?(.*)%3Ag1\.(.*?)%22%2C21%5D/;
+
+const PERCENTAGE_CODE_REGEX = /C(.)%/g; // Tìm các mã dạng C_X_%
+
+
+
+const sourcePackageCodes = [
+
+NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb',
+
+'2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft',
+
+'100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft',
+
+'100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft',
+
+'200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft',
+
+'200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft',
+
+'2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft',
+
+'2tb.annual.1month_eft', '2tb.annual.3months_eft'
+
+].filter((value, index, self) => self.indexOf(value) === index);
+
+
+
+const packageRadioContainers = {
+
+monthly: document.getElementById('monthlyPackagesContainer'),
+
+yearly: document.getElementById('yearlyPackagesContainer'),
+
+trial100gb: document.getElementById('trial100GBPackagesContainer'),
+
+trial200gb: document.getElementById('trial200GBPackagesContainer'),
+
+trial2TB: document.getElementById('trial2TBPackagesContainer')
+
+};
+
+
+
+// --- Global State ---
+
+let currentTokenValue = '';
+
+let originalExtractedPackageCode = '';
+
+
+
+// --- Functions ---
+
+function populatePackageRadioButtons() {
+
+sourcePackageCodes.forEach(packageCode => {
+
+const radioInput = document.createElement('input');
+
+radioInput.type = 'radio';
+
+radioInput.name = 'sourcePackageRadio';
+
+radioInput.value = packageCode;
+
+radioInput.id = 'radio-' + packageCode.replace(/\s+/g, '-').replace(/\./g, '-');
+
+radioInput.className = 'form-check-input';
+
+
+
+if (packageCode === NO_CHANGE_OPTION_VALUE) {
+
+radioInput.checked = true;
+
+}
+
+
+
+const label = document.createElement('label');
+
+label.htmlFor = radioInput.id;
+
+label.textContent = packageCode;
+
+label.className = 'form-check-label';
+
+
+
+let targetContainer;
+
+if (packageCode === NO_CHANGE_OPTION_VALUE) {
+
+targetContainer = packageRadioContainers.monthly;
+
+} else if (packageCode.includes('_eft')) {
+
+if (packageCode.startsWith('100gb')) targetContainer = packageRadioContainers.trial100gb;
+
+else if (packageCode.startsWith('200gb')) targetContainer = packageRadioContainers.trial200gb;
+
+else if (packageCode.startsWith('2tb')) targetContainer = packageRadioContainers.trial2TB;
+
+else targetContainer = packageRadioContainers.monthly; // Fallback
+
+} else if (packageCode.includes('annual')) {
+
+targetContainer = packageRadioContainers.yearly;
+
+} else {
+
+targetContainer = packageRadioContainers.monthly;
+
+}
+
+
+
+if (targetContainer) {
+
+const div = document.createElement('div');
+
+div.className = 'form-check mb-2'; // Thêm mb-2 để có khoảng cách giữa các radio
+
+div.appendChild(radioInput);
+
+div.appendChild(label);
+
+targetContainer.appendChild(div);
+
+}
+
+});
+
+}
+
+
+
+function handleTokenInput() {
+
+currentTokenValue = tokenInputElement.value.trim();
+
+const matches = currentTokenValue.match(TOKEN_URL_REGEX);
+
+
+
+if (matches && matches[2]) {
+
+originalExtractedPackageCode = matches[2];
+
+extractedPackageCodeSpan.textContent = originalExtractedPackageCode;
+
+
+
+let percentageMatch;
+
+const percentageCharsFound = [];
+
+PERCENTAGE_CODE_REGEX.lastIndex = 0;
+
+while ((percentageMatch = PERCENTAGE_CODE_REGEX.exec(currentTokenValue)) !== null) {
+
+percentageCharsFound.push(percentageMatch[1]);
+
+}
+
+
+
+if (percentageCharsFound.length > 0) {
+
+extractedPercentageCodeSpan.textContent = 'C' + percentageCharsFound[0] + '%';
+
+} else {
+
+extractedPercentageCodeSpan.textContent = 'Không tìm thấy';
+
+}
+
+
+
+resultProcessingContainer.style.display = 'block';
+
+finalResultContainer.style.display = 'none';
+
+} else {
+
+resultProcessingContainer.style.display = 'none';
+
+finalResultContainer.style.display = 'none';
+
+if (currentTokenValue !== '') {
+
+// Không dùng alert, có thể hiển thị lỗi ngay trên UI nếu cần
+
+console.warn('Đoạn mã token không hợp lệ.');
+
+}
+
+}
+
+}
+
+
+
+function processAndReplaceToken() {
+
+if (!TOKEN_URL_REGEX.test(currentTokenValue)) {
+
+alert('Đoạn mã token ban đầu không hợp lệ. Vui lòng kiểm tra lại.');
+
+resultProcessingContainer.style.display = 'none';
+
+finalResultContainer.style.display = 'none';
+
+return;
+
+}
+
+
+
+const selectedReplacementMethodRadio = document.querySelector('input[name="replacementMethodRadio"]:checked');
+
+const selectedSourcePackageRadio = document.querySelector('input[name="sourcePackageRadio"]:checked');
+
+
+
+if (!selectedReplacementMethodRadio) {
+
+alert('Vui lòng chọn một phương thức thay thế mã phần trăm (ví dụ: C0%).');
+
+return;
+
+}
+
+if (!selectedSourcePackageRadio) {
+
+alert('Vui lòng chọn một code gói để thay thế.');
+
+return;
+
+}
+
+
+
+const replacementMethodValue = selectedReplacementMethodRadio.value;
+
+const packageToReplaceWith = selectedSourcePackageRadio.value;
+
+
+
+let modifiedTokenString = currentTokenValue.replace(/C[56]%/g, replacementMethodValue);
+
+
+
+let finalTokenString = modifiedTokenString;
+
+if (packageToReplaceWith !== NO_CHANGE_OPTION_VALUE && originalExtractedPackageCode) {
+
+const packageCodePattern = originalExtractedPackageCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const regexToReplacePackage = new RegExp(packageCodePattern, 'g');
+
+finalTokenString = modifiedTokenString.replace(regexToReplacePackage, packageToReplaceWith);
+
+}
+
+
+
+outputStringDiv.textContent = finalTokenString;
+
+openLinkButton.href = finalTokenString;
+
+finalResultContainer.style.display = 'block';
+
+}
+
+
+
+// --- Event Listeners ---
+
+tokenInputElement.addEventListener('input', handleTokenInput);
+
+processButton.addEventListener('click', processAndReplaceToken);
+
+
+
+// --- Initialization ---
+
+populatePackageRadioButtons();
+
+
+
+</script>
+
 </body>
+
 </html>
