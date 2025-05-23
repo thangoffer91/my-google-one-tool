@@ -10,28 +10,36 @@
       body {
         font-family: 'Inter', sans-serif;
         background-color: #f0f2f5;
+        /* Màu nền xám nhạt cho trang */
         color: #333;
       }
 
       .container {
         background-color: #ffffff;
+        /* Nền trắng cho container chính */
         padding: 30px;
         border-radius: 12px;
+        /* Bo góc lớn hơn */
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        /* Đổ bóng nhẹ nhàng */
         margin-top: 40px;
         margin-bottom: 40px;
         max-width: 900px;
+        /* Giới hạn chiều rộng tối đa */
       }
 
       h2.main-title {
         font-weight: 700;
         color: #2c3e50;
+        /* Màu tiêu đề đậm hơn */
         margin-bottom: 30px;
       }
 
       .form-control {
         border-radius: 8px;
+        /* Bo góc cho input */
         padding: 12px 15px;
+        /* Tăng padding */
         border: 1px solid #ced4da;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       }
@@ -43,20 +51,24 @@
 
       label {
         font-weight: 600;
+        /* Chữ đậm hơn cho label */
         color: #495057;
       }
 
       hr {
         border-top: 1px solid #e0e0e0;
+        /* Thanh phân cách tinh tế hơn */
         margin-top: 25px;
         margin-bottom: 25px;
       }
 
       #outputString[contentEditable="true"] {
         background-color: #e9ecef;
+        /* Màu nền khác biệt cho ô kết quả */
         border: 1px solid #ced4da;
         padding: 15px;
         resize: vertical;
+        /* Chỉ cho phép thay đổi kích thước theo chiều dọc */
         overflow: auto;
         min-height: 100px;
         height: 150px;
@@ -85,6 +97,7 @@
         background-color: #0056b3;
         border-color: #0056b3;
         transform: translateY(-2px);
+        /* Hiệu ứng nhấc lên khi hover */
         box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
       }
 
@@ -102,15 +115,19 @@
       }
 
       .radio-column-container .col-md-custom {
+        /* Lớp tùy chỉnh cho cột radio */
         flex: 0 0 19%;
+        /* Cho 5 cột trên một hàng */
         max-width: 19%;
         margin-bottom: 15px;
       }
 
+      /* Điều chỉnh cho màn hình nhỏ hơn */
       @media (max-width: 1200px) {
         .radio-column-container .col-md-custom {
           flex: 0 0 24%;
           max-width: 24%;
+          /* 4 cột */
         }
       }
 
@@ -118,6 +135,7 @@
         .radio-column-container .col-md-custom {
           flex: 0 0 32%;
           max-width: 32%;
+          /* 3 cột */
         }
       }
 
@@ -125,6 +143,7 @@
         .radio-column-container .col-md-custom {
           flex: 0 0 48%;
           max-width: 48%;
+          /* 2 cột */
         }
       }
 
@@ -132,11 +151,13 @@
         .radio-column-container .col-md-custom {
           flex: 0 0 100%;
           max-width: 100%;
+          /* 1 cột */
         }
       }
 
       .form-check-input {
         margin-top: 0.2rem;
+        /* Điều chỉnh vị trí input radio nếu cần */
       }
 
       .form-check-label {
@@ -144,9 +165,13 @@
         font-weight: 500;
         color: #555;
         overflow-wrap: break-word;
+        /* Cho phép ngắt từ dài xuống dòng */
         word-break: break-word;
+        /* Hỗ trợ ngắt từ mạnh hơn nếu cần */
         white-space: normal;
+        /* Đảm bảo văn bản có thể ngắt dòng */
         line-height: 1.3;
+        /* Điều chỉnh chiều cao dòng cho dễ đọc khi ngắt dòng */
       }
 
       .package-category-title {
@@ -160,11 +185,6 @@
         font-size: 0.875rem;
         color: #6c757d;
       }
-
-      .error-message {
-        font-size: 0.875rem;
-        color: #dc3545;
-      }
     </style>
   </head>
   <body>
@@ -173,14 +193,13 @@
       <div class="form-group">
         <label for="tokenInputElement">Nhập đoạn mã token Google One:</label>
         <input type="text" class="form-control" id="tokenInputElement" name="tokenInputElement" placeholder="Dán mã token vào đây...">
-        <div id="tokenError" class="error-message mt-1" style="display: none;"></div>
       </div>
       <div id="resultProcessingContainer" style="display: none; margin-bottom: 30px;">
         <div class="mt-3 mb-3 p-3 bg-light rounded border"> Thông tin từ token: <div>Code gói tìm được: <b>
               <span id="extractedPackageCodeSpan" class="text-primary"></span>
             </b>
           </div>
-          <div>Mã phần trăm hiện tại: <b>
+          <div>Mã hiện tại: <b>
               <span id="extractedPercentageCodeSpan" class="text-success"></span>
             </b>
           </div>
@@ -190,7 +209,7 @@
           <label>Chọn code gói bạn muốn thay thế:</label>
           <br>
           <small class="form-text text-muted note-text mb-2">
-            <i>Lưu ý: "annual" là gói NĂM, không có "annual" là gói THÁNG. "eft" thường là gói dùng thử.</i>
+            <i>Lưu ý: "annual" là gói NĂM, không có "annual" là gói THÁNG.</i>
           </small>
           <div class="row radio-column-container justify-content-between">
             <div class="col-md-custom">
@@ -213,13 +232,13 @@
             </div>
             <div class="col-md-custom">
               <b class="package-category-title">
-                <i>Trial 200GB/Khác</i>
+                <i>Trial 200GB</i>
               </b>
               <div id="trial200GBPackagesContainer"></div>
             </div>
             <div class="col-md-custom">
               <b class="package-category-title">
-                <i>Trial 2TB/AI Khác</i>
+                <i>Trial 2TB</i>
               </b>
               <div id="trial2TBPackagesContainer"></div>
             </div>
@@ -261,8 +280,8 @@
       </div>
     </div>
     <script>
+      // --- DOM Element References ---
       const tokenInputElement = document.getElementById('tokenInputElement');
-      const tokenErrorDiv = document.getElementById('tokenError');
       const resultProcessingContainer = document.getElementById('resultProcessingContainer');
       const extractedPackageCodeSpan = document.getElementById('extractedPackageCodeSpan');
       const extractedPercentageCodeSpan = document.getElementById('extractedPercentageCodeSpan');
@@ -270,11 +289,12 @@
       const finalResultContainer = document.getElementById('finalResultContainer');
       const outputStringDiv = document.getElementById('outputString');
       const openLinkButton = document.getElementById('openLinkButton');
+      // --- Configuration ---
       const NO_CHANGE_OPTION_VALUE = 'Không thay đổi';
       const TOKEN_URL_REGEX = /^https:\/\/tokenized\.play\.google\.com\/eacquire\/.*?(.*)%3Ag1\.(.*?)%22%2C21%5D/;
-      const PERCENTAGE_CODE_REGEX = /C\d+?%/;
+      const PERCENTAGE_CODE_REGEX = /C(.)%/g; // Tìm các mã dạng C_X_%
       const sourcePackageCodes = [
-        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft', 'ai.pro'
+        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft'
       ].filter((value, index, self) => self.indexOf(value) === index);
       const packageRadioContainers = {
         monthly: document.getElementById('monthlyPackagesContainer'),
@@ -283,49 +303,41 @@
         trial200gb: document.getElementById('trial200GBPackagesContainer'),
         trial2TB: document.getElementById('trial2TBPackagesContainer')
       };
+      // --- Global State ---
       let currentTokenValue = '';
       let originalExtractedPackageCode = '';
-      let originalExtractedPercentageCode = '';
-
+      // --- Functions ---
       function populatePackageRadioButtons() {
         sourcePackageCodes.forEach(packageCode => {
           const radioInput = document.createElement('input');
           radioInput.type = 'radio';
           radioInput.name = 'sourcePackageRadio';
           radioInput.value = packageCode;
-          radioInput.id = 'radio-' + packageCode.replace(/[^a-zA-Z0-9-_]/g, '-');
+          radioInput.id = 'radio-' + packageCode.replace(/\s+/g, '-').replace(/\./g, '-');
           radioInput.className = 'form-check-input';
           if (packageCode === NO_CHANGE_OPTION_VALUE) {
             radioInput.checked = true;
           }
           const label = document.createElement('label');
           label.htmlFor = radioInput.id;
-          if (packageCode === 'ai.pro') {
-            label.textContent = '30TB Ultra';
-          } else {
-            label.textContent = packageCode;
-          }
+          label.textContent = packageCode;
           label.className = 'form-check-label';
           let targetContainer;
           if (packageCode === NO_CHANGE_OPTION_VALUE) {
-            targetContainer = packageRadioContainers.monthly;
-          } else if (packageCode === 'ai.pro') {
             targetContainer = packageRadioContainers.monthly;
           } else if (packageCode.includes('_eft')) {
             if (packageCode.startsWith('100gb')) targetContainer = packageRadioContainers.trial100gb;
             else if (packageCode.startsWith('200gb')) targetContainer = packageRadioContainers.trial200gb;
             else if (packageCode.startsWith('2tb')) targetContainer = packageRadioContainers.trial2TB;
-            else targetContainer = packageRadioContainers.trial200gb;
+            else targetContainer = packageRadioContainers.monthly; // Fallback
           } else if (packageCode.includes('annual')) {
             targetContainer = packageRadioContainers.yearly;
-          } else if (packageCode.includes('ai')) {
-            targetContainer = packageRadioContainers.trial2TB;
           } else {
             targetContainer = packageRadioContainers.monthly;
           }
           if (targetContainer) {
             const div = document.createElement('div');
-            div.className = 'form-check mb-2';
+            div.className = 'form-check mb-2'; // Thêm mb-2 để có khoảng cách giữa các radio
             div.appendChild(radioInput);
             div.appendChild(label);
             targetContainer.appendChild(div);
@@ -336,16 +348,18 @@
       function handleTokenInput() {
         currentTokenValue = tokenInputElement.value.trim();
         const matches = currentTokenValue.match(TOKEN_URL_REGEX);
-        tokenErrorDiv.style.display = 'none';
         if (matches && matches[2]) {
           originalExtractedPackageCode = matches[2];
           extractedPackageCodeSpan.textContent = originalExtractedPackageCode;
-          const percentageMatch = currentTokenValue.match(PERCENTAGE_CODE_REGEX);
-          if (percentageMatch && percentageMatch[0]) {
-            originalExtractedPercentageCode = percentageMatch[0];
-            extractedPercentageCodeSpan.textContent = originalExtractedPercentageCode;
+          let percentageMatch;
+          const percentageCharsFound = [];
+          PERCENTAGE_CODE_REGEX.lastIndex = 0;
+          while ((percentageMatch = PERCENTAGE_CODE_REGEX.exec(currentTokenValue)) !== null) {
+            percentageCharsFound.push(percentageMatch[1]);
+          }
+          if (percentageCharsFound.length > 0) {
+            extractedPercentageCodeSpan.textContent = 'C' + percentageCharsFound[0] + '%';
           } else {
-            originalExtractedPercentageCode = '';
             extractedPercentageCodeSpan.textContent = 'Không tìm thấy';
           }
           resultProcessingContainer.style.display = 'block';
@@ -354,16 +368,15 @@
           resultProcessingContainer.style.display = 'none';
           finalResultContainer.style.display = 'none';
           if (currentTokenValue !== '') {
-            tokenErrorDiv.textContent = 'Đoạn mã token không hợp lệ hoặc không đúng định dạng.';
-            tokenErrorDiv.style.display = 'block';
+            // Không dùng alert, có thể hiển thị lỗi ngay trên UI nếu cần
+            console.warn('Đoạn mã token không hợp lệ.');
           }
         }
       }
 
       function processAndReplaceToken() {
         if (!TOKEN_URL_REGEX.test(currentTokenValue)) {
-          tokenErrorDiv.textContent = 'Đoạn mã token ban đầu không hợp lệ. Vui lòng nhập lại.';
-          tokenErrorDiv.style.display = 'block';
+          alert('Đoạn mã token ban đầu không hợp lệ. Vui lòng kiểm tra lại.');
           resultProcessingContainer.style.display = 'none';
           finalResultContainer.style.display = 'none';
           return;
@@ -371,37 +384,30 @@
         const selectedReplacementMethodRadio = document.querySelector('input[name="replacementMethodRadio"]:checked');
         const selectedSourcePackageRadio = document.querySelector('input[name="sourcePackageRadio"]:checked');
         if (!selectedReplacementMethodRadio) {
-          tokenErrorDiv.textContent = 'Vui lòng chọn một phương thức thay thế mã phần trăm.';
-          tokenErrorDiv.style.display = 'block';
+          alert('Vui lòng chọn một phương thức thay thế mã phần trăm (ví dụ: C0%).');
           return;
         }
         if (!selectedSourcePackageRadio) {
-          tokenErrorDiv.textContent = 'Vui lòng chọn một code gói để thay thế.';
-          tokenErrorDiv.style.display = 'block';
+          alert('Vui lòng chọn một code gói để thay thế.');
           return;
         }
-        tokenErrorDiv.style.display = 'none';
         const replacementMethodValue = selectedReplacementMethodRadio.value;
         const packageToReplaceWith = selectedSourcePackageRadio.value;
-        let modifiedTokenString = currentTokenValue;
-        if (originalExtractedPercentageCode && originalExtractedPercentageCode !== 'Không tìm thấy') {
-          const escapedOriginalPercentage = originalExtractedPercentageCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const regexToReplacePercentage = new RegExp(escapedOriginalPercentage, 'g');
-          modifiedTokenString = modifiedTokenString.replace(regexToReplacePercentage, replacementMethodValue);
-        }
+        let modifiedTokenString = currentTokenValue.replace(/C[56]%/g, replacementMethodValue);
+        let finalTokenString = modifiedTokenString;
         if (packageToReplaceWith !== NO_CHANGE_OPTION_VALUE && originalExtractedPackageCode) {
           const packageCodePattern = originalExtractedPackageCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           const regexToReplacePackage = new RegExp(packageCodePattern, 'g');
           finalTokenString = modifiedTokenString.replace(regexToReplacePackage, packageToReplaceWith);
-        } else {
-          finalTokenString = modifiedTokenString;
         }
         outputStringDiv.textContent = finalTokenString;
         openLinkButton.href = finalTokenString;
         finalResultContainer.style.display = 'block';
       }
+      // --- Event Listeners ---
       tokenInputElement.addEventListener('input', handleTokenInput);
       processButton.addEventListener('click', processAndReplaceToken);
+      // --- Initialization ---
       populatePackageRadioButtons();
     </script>
   </body>
