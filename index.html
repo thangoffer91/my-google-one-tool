@@ -310,7 +310,7 @@
       const PERCENTAGE_CODE_REGEX = /C\d+?%/;
       // Danh sách các mã gói được hỗ trợ.
       const sourcePackageCodes = [
-        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft', 'ai.pro' // Gói AI Pro (đã cập nhật từ g1.ai.pro)
+        NO_CHANGE_OPTION_VALUE, '100gb', '100gb.9months_eft', '200gb', '2tb.ai', '2tb', '2tb.annual', '20tb', '5tb', '5tb.annual', '30tb', '100gb.annual.1month_eft', '100gb.1month_eft', '100gb.2months_eft', '100gb.3months_eft', '100gb.annual.1year_eft', '100gb.annual', '100gb.annual.3months_eft', '200gb.1year_eft', '200gb.annual.3months_eft', '10tb', '2tb.ai.2months_eft', '200gb.annual.1month_eft', '200gb.1month_eft', '200gb.3months_eft', '2tb.6months_eft', '2tb.1month_eft', '2tb.3months_eft', '2tb.ai.1month_eft', '2tb.annual.1month_eft', '2tb.annual.3months_eft', 'ai.pro' // Gói AI Pro (giá trị nội bộ là 'ai.pro', nhãn hiển thị là '30TB Ultra')
       ].filter((value, index, self) => self.indexOf(value) === index); // Đảm bảo các giá trị là duy nhất
       const packageRadioContainers = {
         monthly: document.getElementById('monthlyPackagesContainer'),
@@ -329,7 +329,7 @@
           const radioInput = document.createElement('input');
           radioInput.type = 'radio';
           radioInput.name = 'sourcePackageRadio';
-          radioInput.value = packageCode;
+          radioInput.value = packageCode; // Giá trị nội bộ của radio button
           radioInput.id = 'radio-' + packageCode.replace(/[^a-zA-Z0-9-_]/g, '-'); // ID an toàn
           radioInput.className = 'form-check-input';
           if (packageCode === NO_CHANGE_OPTION_VALUE) {
@@ -337,12 +337,17 @@
           }
           const label = document.createElement('label');
           label.htmlFor = radioInput.id;
-          label.textContent = packageCode;
+          // Đặt nhãn hiển thị tùy chỉnh cho 'ai.pro'
+          if (packageCode === 'ai.pro') {
+            label.textContent = '30TB Ultra';
+          } else {
+            label.textContent = packageCode; // Nhãn mặc định là mã gói
+          }
           label.className = 'form-check-label';
           let targetContainer;
           if (packageCode === NO_CHANGE_OPTION_VALUE) {
             targetContainer = packageRadioContainers.monthly;
-          } else if (packageCode === 'ai.pro') { // Điều kiện riêng cho ai.pro
+          } else if (packageCode === 'ai.pro') { // Điều kiện riêng cho ai.pro để đặt vào cột Gói THÁNG
             targetContainer = packageRadioContainers.monthly;
           } else if (packageCode.includes('_eft')) {
             if (packageCode.startsWith('100gb')) targetContainer = packageRadioContainers.trial100gb;
@@ -415,7 +420,7 @@
         }
         tokenErrorDiv.style.display = 'none'; // Xóa lỗi nếu các lựa chọn hợp lệ
         const replacementMethodValue = selectedReplacementMethodRadio.value;
-        const packageToReplaceWith = selectedSourcePackageRadio.value;
+        const packageToReplaceWith = selectedSourcePackageRadio.value; // Đây sẽ là 'ai.pro' nếu người dùng chọn "30TB Ultra"
         let modifiedTokenString = currentTokenValue;
         // 1. Thay thế mã phần trăm
         if (originalExtractedPercentageCode && originalExtractedPercentageCode !== 'Không tìm thấy') {
@@ -424,9 +429,6 @@
           const regexToReplacePercentage = new RegExp(escapedOriginalPercentage, 'g');
           modifiedTokenString = modifiedTokenString.replace(regexToReplacePercentage, replacementMethodValue);
         }
-        // Lưu ý: Trường hợp token không có mã % ban đầu nhưng người dùng muốn "thêm mới" một mã %
-        // là một kịch bản phức tạp hơn về vị trí chèn và hiện tại không được xử lý để giữ sự đơn giản.
-        // Logic hiện tại tập trung vào việc "thay thế" mã % nếu nó tồn tại.
         // 2. Thay thế mã gói
         // Chỉ thay thế nếu người dùng chọn một gói khác "Không thay đổi" và mã gói gốc đã được trích xuất
         if (packageToReplaceWith !== NO_CHANGE_OPTION_VALUE && originalExtractedPackageCode) {
